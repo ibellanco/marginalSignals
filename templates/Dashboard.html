@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <title>Marginal signals</title>
+    <!-- Add the Plotly Script Scource in html head tag-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js" ></script>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">-->
+    <!--<link rel="stylesheet" href="/static/css/nav.css">-->
+    <style>
+        /*Dashboard style*/
+        * {box-sizing: border-box;}
+        .content {font-family: Arial;padding: 40px;}
+        .content_signals {font-family: Arial;margin-top:60px;margin-left:30px;margin-right:30px;align-content:center;}
+
+        #navsection {margin-bottom: 200px;}
+        /* Create two unequal columns that floats next to each other */
+        /* Left column */
+        .leftcolumn {float: left;width: 50%;}
+        /* Right column */
+        .rightcolumn {float: left;width: 50%;padding-left: 20px;}
+        /* Clear floats after the columns */
+        .row:after {content: "";display: table;clear: both;} 
+        /* Footer */
+        .footer {font-size: 15px;text-align: center;position: fixed;padding:10px;margin:0;bottom: 0;width: 100%;height: 40px;color:rgb(245,102,0);background: white;}
+        /* Add a card effect for articles */
+        .card {background-color: white;padding: 20px;margin-top: 20px;}
+
+        /* Create a sticky/fixed navbar */
+        #navbar {
+            overflow: hidden;
+            background-color: #f1f1f1;
+            padding: 60px 10px; /* Large padding which will shrink on scroll (using JS) */
+            transition: 0.4s; /* Adds a transition effect when the padding is decreased */
+            position: fixed; /* Sticky/fixed navbar */
+            width: 100%;
+            top: 0; /* At the top */
+            z-index: 99;
+        }
+        
+        /* Style the navbar links */
+        #navbar a {
+            float: left;
+            color: black;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 25px;
+            border-radius: 4px;
+        }
+        
+        /* Style the logo */
+        #navbar #logo {font-size: 35px;font-weight: bold;transition: 0.4s;}
+        /* Links on mouse-over */
+        #navbar a:hover {background-color: #ddd;color: black;}
+        /* Style the active/current link */
+        #navbar a.active {background-color: rgb(106,176,35);color: white;}
+        /* Display some links to the right */
+        #navbar-right {float: right;}
+        /* Centered section inside the top navigation */
+        .topnav-centered a {float: none;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);}
+    </style>
+</head>
+<body>
+    <!-- Nav -->
+    <section id="navsection">
+        <div id="navbar">
+            <a href="https://marginal-signals.herokuapp.com/" id="logo">Energy Flexibility</a>
+            <!-- Centered link -->
+            <div class="topnav-centered">
+                <a href="https://marginal-signals.herokuapp.com/">Modulation signals</a>
+            </div>            
+            <div id="navbar-right">
+              <a href="https://marginal-signals.herokuapp.com/dashboard" class="active">Dashboard</a>
+              <a href="https://marginal-signals.herokuapp.com/historical">Historical</a>
+            </div>
+          </div>
+    </section>
+    <!-- Main content -->
+    <section class="content_signals">
+        <div class="xx" id="xx" style="height:500px;width:100%;border:none;background:RGBA(0, 0, 0, 0);margin-top:20px;margin-bottom:15px;display:flex;justify-content:center;align-items:center;">
+            <div style="height:500px;width:80%;border:solid;padding:20px;background:white;">
+                <div id="chart_res" style="width:100%;"></div>
+            </div>
+        </div>
+        <div class="xx" id="xx" style="height:550px;width:100%;border:none;background:RGBA(0, 0, 0, 1);margin-top:20px;display:flex;justify-content:center;align-items:center;">
+            <div style="height:550px;width:100%;border:none;padding:20px;background:white;">
+                <div class="leftcolumn" style="height:500px;width:45%;border:solid black;">
+                    <div id="chart_co2" style="background:#f0f8ff;">
+                    </div>
+                </div>
+                <div class="leftcolumn" style="height:500px;width:10%;border:none;">
+
+                </div>
+                <div class="rightcolumn" style="height:500px;width:45%;border:solid black;">
+                    <div id="chart_pe">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="xx" id="xx" style="height:20px;border:none;background:white;border-style: bottom;width:100%;text-align: left;margin-top:30px;margin-bottom:10px;">
+            <small>The scheduled generation has been retrieved from //www.esios.ree.es/es </small>
+        </div>
+    </section>
+
+</section>
+<footer>
+    <div class="xx" id="xx" style="height:autoScale2d;border:none;background:rgb(245,102,0,0.1);border-style: bottom;width:100%;text-align: center;margin-bottom:50px;margin-top:50px;padding:10px;">
+        <small><b>Related group publications</b> <br>
+        <a href="https://www.researchgate.net/publication/328314917_Environmental_and_Economic_Impact_of_Demand_Response_Strategies_for_Energy_Flexible_Buildings">Environmental and Economic Impact of Demand Response Strategies for Energy Flexible Buildings</a>
+        <br>
+        <a href="http://dspace.aeipro.com/xmlui/handle/123456789/3271">Marginal grid emissions and primary energy to activate demand side management: COVID19 case study</a>
+        <br>
+        <a href="https://www.sciencedirect.com/science/article/pii/S0360132322006928">Ten questions concerning energy flexibility in buildings</a>
+        <br>
+        Check the group page <a href="https://www.irec.cat/research/group/thermal-energy-and-building-performance/">Thermal energy and building performance at IREC</a><br>
+    </div>
+    <div class="footer">
+        <p>Copyright © 2022 Institut de Recerca en 
+            Energia de Catalunya. All Rights Reserved.</p>
+    </div>
+</footer>
+
+    <script >
+        // When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+        if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+            document.getElementById("navbar").style.padding = "30px 10px";
+            document.getElementById("logo").style.fontSize = "25px";
+            document.getElementById("navbar").style.background = "lightblue";
+        } else {
+            document.getElementById("navbar").style.padding = "60px 10px";
+            document.getElementById("logo").style.fontSize = "35px";
+            document.getElementById("navbar").style.background = "#f1f1f1";
+        }
+        }
+    </script>
+    <script type="text/javascript">
+        var graphs;
+        var graphs = {{ chart_for_html | safe }}; 
+        var graphs=JSON.parse(graphs);
+        // console.log()
+        var config ={displayModeBar: false,showTips: false,responsive:true};
+        Plotly.plot('chart_res',graphs.data,graphs.layout,config);
+
+
+        var graphs_co2;
+        var graphs_co2 = {{ chart_for_html_co2 | safe }}; 
+        var graphs_co2=JSON.parse(graphs_co2);
+        // console.log()
+        var config_co2 ={displayModeBar: true,showTips: false,responsive:true, 
+            displaylogo: false, 
+            modeBarButtonsToRemove: ['zoom2d','zoomIn2d','zoomOut2d','resetViews','pan2d',
+            'sendDataToCloud','editInChartStudio','select2d','lasso2d','autoScale2d',
+            'resetScale2d','toggleHover','toggleSpikelines','hoverCompareCartesian','hoverClosestCartesian']};       
+        Plotly.plot('chart_co2',graphs_co2.data,graphs_co2.layout,config_co2,{scrollZoom: true});
+
+
+        var graphs_pe;
+        var graphs_pe = {{ chart_for_html_pe | safe }}; 
+        var graphs_pe=JSON.parse(graphs_pe);
+        // console.log()
+        var config_pe ={displayModeBar: true,showTips: false,responsive:true, 
+            displaylogo: false, 
+            modeBarButtonsToRemove: ['zoom2d','zoomIn2d','zoomOut2d','resetViews','pan2d',
+            'sendDataToCloud','editInChartStudio','select2d','lasso2d','autoScale2d',
+            'resetScale2d','toggleHover','toggleSpikelines','hoverCompareCartesian','hoverClosestCartesian']};  
+        Plotly.plot('chart_pe',graphs_pe.data,graphs_pe.layout,config_pe,{scrollZoom: true});
+    </script>
+</body>
+</html>
